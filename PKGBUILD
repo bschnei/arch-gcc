@@ -126,7 +126,6 @@ package_gcc-libs()
              libgomp \
              libitm \
              libquadmath \
-             libmpx \
              libsanitizer/{a,l,ub}san \
              libstdc++-v3/src \
              libvtv; do
@@ -139,6 +138,9 @@ package_gcc-libs()
   make -C $CHOST/libobjc DESTDIR=${pkgdir} install-libs
 
   make -C $CHOST/libstdc++-v3/po DESTDIR=${pkgdir} install
+
+  make -C $CHOST/libmpx DESTDIR=${pkgdir} install
+  rm ${pkgdir}/usr/lib/libmpx.spec
 
   for lib in libgomp \
              libitm \
@@ -185,8 +187,9 @@ package_gcc()
   make -C gcc DESTDIR=${pkgdir} install-mkheaders
   
   make -C lto-plugin DESTDIR=${pkgdir} install
-  install -Dm755 ${pkgdir}/usr/lib/bfd-plugins/
-  ln -s /usr/lib/gcc/$CHOST/${pkgver}/liblto_plugin.so ${pkgdir}/usr/lib/bfd-plugins/
+  install -dm755 ${pkgdir}/usr/lib/bfd-plugins/
+  ln -s /usr/lib/gcc/$CHOST/${pkgver}/liblto_plugin.so \
+    ${pkgdir}/usr/lib/bfd-plugins/
 
   make -C $CHOST/libcilkrts DESTDIR=${pkgdir} install-nodist_toolexeclibHEADERS \
     install-nodist_cilkincludeHEADERS
@@ -196,6 +199,7 @@ package_gcc()
   make -C $CHOST/libquadmath DESTDIR=${pkgdir} install-nodist_libsubincludeHEADERS
   make -C $CHOST/libsanitizer DESTDIR=${pkgdir} install-nodist_{saninclude,toolexeclib}HEADERS
   make -C $CHOST/libsanitizer/asan DESTDIR=${pkgdir} install-nodist_toolexeclibHEADERS
+  make -C $CHOST/libmpx DESTDIR=${pkgdir} install-nodist_toolexeclibHEADERS
 
   make -C libiberty DESTDIR=${pkgdir} install
   # install PIC version of libiberty
