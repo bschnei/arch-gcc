@@ -7,7 +7,7 @@ pkgname=('gcc' 'gcc-libs' 'gcc-fortran' 'gcc-objc' 'gcc-ada' 'gcc-go')
 pkgver=5.3.0
 _pkgver=5
 _islver=0.15
-pkgrel=2
+pkgrel=3
 #_snapshot=5-20150623
 pkgdesc="The GNU Compiler Collection"
 arch=('i686' 'x86_64')
@@ -107,6 +107,7 @@ package_gcc-libs()
   for lib in libatomic \
              libcilkrts \
              libgfortran \
+             libgo \
              libgomp \
              libitm \
              libquadmath \
@@ -306,6 +307,7 @@ package_gcc-go()
 
   cd ${srcdir}/gcc-build
   make -C $CHOST/libgo DESTDIR=$pkgdir install-exec-am
+  rm ${pkgdir}/usr/lib/libgo.so*
   make -C gcc DESTDIR=$pkgdir go.install-{common,man,info}
   install -Dm755 gcc/go1 $pkgdir/${_libdir}/go1
 
