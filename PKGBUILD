@@ -7,8 +7,8 @@ pkgname=('gcc' 'gcc-libs' 'gcc-fortran' 'gcc-objc' 'gcc-ada' 'gcc-go')
 pkgver=7.1.1
 _pkgver=${pkgver:0:1}
 _islver=0.18
-pkgrel=2
-_commit=754d7e56674dda4bd2d40e310d2093c2df970780
+pkgrel=3
+_commit=81fc9125b24bba5f2761b7986ff4e3de14740291
 pkgdesc="The GNU Compiler Collection"
 arch=('i686' 'x86_64')
 license=('GPL' 'LGPL' 'FDL' 'custom')
@@ -83,7 +83,7 @@ build() {
       --enable-checking=release
 
   make
-  
+
   # make documentation
   make -C $CHOST/libstdc++-v3/doc doc-man-doxygen
 }
@@ -109,10 +109,10 @@ package_gcc-libs()
   options=('!emptydirs' '!strip')
 
   cd ${srcdir}/gcc-build
-  
+
   make -C $CHOST/libgcc DESTDIR=${pkgdir} install-shared
   rm ${pkgdir}/${_libdir}/libgcc_eh.a
-  
+
   for lib in libatomic \
              libcilkrts \
              libgfortran \
@@ -164,7 +164,7 @@ package_gcc()
 
   make -C $CHOST/libgcc DESTDIR=${pkgdir} install
   rm ${pkgdir}/usr/lib/libgcc_s.so*
-  
+
   make -C $CHOST/libstdc++-v3/src DESTDIR=${pkgdir} install
   make -C $CHOST/libstdc++-v3/include DESTDIR=${pkgdir} install
   make -C $CHOST/libstdc++-v3/libsupc++ DESTDIR=${pkgdir} install
@@ -178,7 +178,7 @@ package_gcc()
 
   make DESTDIR=${pkgdir} install-fixincludes
   make -C gcc DESTDIR=${pkgdir} install-mkheaders
-  
+
   make -C lto-plugin DESTDIR=${pkgdir} install
   install -dm755 ${pkgdir}/usr/lib/bfd-plugins/
   ln -s /usr/lib/gcc/$CHOST/${pkgver}/liblto_plugin.so \
