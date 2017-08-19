@@ -8,7 +8,7 @@ pkgname=(gcc gcc-libs gcc-fortran gcc-objc gcc-ada gcc-go)
 pkgver=7.2.0
 _pkgver=${pkgver:0:1}
 _islver=0.18
-pkgrel=1
+pkgrel=2
 pkgdesc='The GNU Compiler Collection'
 arch=(i686 x86_64)
 license=(GPL LGPL FDL custom)
@@ -218,7 +218,8 @@ package_gcc() {
 
   # Install Runtime Library Exception
   install -d "$pkgdir/usr/share/licenses/gcc/"
-  ln -s ../gcc-libs/RUNTIME.LIBRARY.EXCEPTION "$pkgdir/usr/share/licenses/gcc/"
+  ln -s /usr/share/licenses/gcc-libs/RUNTIME.LIBRARY.EXCEPTION \
+    "$pkgdir/usr/share/licenses/$pkgname/"
 }
 
 package_gcc-fortran() {
@@ -236,7 +237,8 @@ package_gcc-fortran() {
 
   # Install Runtime Library Exception
   install -d "$pkgdir/usr/share/licenses/gcc/"
-  ln -s ../gcc-libs/RUNTIME.LIBRARY.EXCEPTION "$pkgdir/usr/share/licenses/gcc/"
+  ln -s /usr/share/licenses/gcc-libs/RUNTIME.LIBRARY.EXCEPTION \
+    "$pkgdir/usr/share/licenses/$pkgname/"
 }
 
 package_gcc-objc() {
@@ -250,7 +252,8 @@ package_gcc-objc() {
 
   # Install Runtime Library Exception
   install -d "$pkgdir/usr/share/licenses/gcc/"
-  ln -s ../gcc-libs/RUNTIME.LIBRARY.EXCEPTION "$pkgdir/usr/share/licenses/gcc/"
+  ln -s /usr/share/licenses/gcc-libs/RUNTIME.LIBRARY.EXCEPTION \
+    "$pkgdir/usr/share/licenses/$pkgname/"
 }
 
 package_gcc-ada() {
@@ -272,7 +275,8 @@ package_gcc-ada() {
 
   # Install Runtime Library Exception
   install -d "$pkgdir/usr/share/licenses/gcc/"
-  ln -s ../gcc-libs/RUNTIME.LIBRARY.EXCEPTION "$pkgdir/usr/share/licenses/gcc/"
+  ln -s /usr/share/licenses/gcc-libs/RUNTIME.LIBRARY.EXCEPTION \
+    "$pkgdir/usr/share/licenses/$pkgname/"
 }
 
 package_gcc-go() {
@@ -290,5 +294,6 @@ package_gcc-go() {
 
   # Install Runtime Library Exception
   install -d "$pkgdir/usr/share/licenses/gcc/"
-  ln -s ../gcc-libs/RUNTIME.LIBRARY.EXCEPTION "$pkgdir/usr/share/licenses/gcc/"
+  ln -s /usr/share/licenses/gcc-libs/RUNTIME.LIBRARY.EXCEPTION \
+    "$pkgdir/usr/share/licenses/$pkgname/"
 }
