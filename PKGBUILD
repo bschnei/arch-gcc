@@ -371,7 +371,7 @@ package_gcc-ada() {
 package_gcc-go() {
   pkgdesc='Go front-end for GCC'
   depends=("gcc=$pkgver-$pkgrel" libisl.so)
-  provides=("go=1.18" $pkgname-multilib)
+  provides=("go=1.17" $pkgname-multilib)
   replaces=($pkgname-multilib)
   conflicts=(go)
 
