@@ -10,8 +10,8 @@
 pkgname=(gcc gcc-libs lib32-gcc-libs gcc-ada gcc-d gcc-fortran gcc-go gcc-objc lto-dump libgccjit)
 pkgver=13.1.1
 _majorver=${pkgver%%.*}
-_commit=9a167ee2f8b9a0859fbab6cfdc276cf1f272effe
-pkgrel=1
+_commit=bef95ba085b0ae9bf3eb79a8eed685236d773116
+pkgrel=2
 pkgdesc='The GNU Compiler Collection'
 arch=(x86_64)
 license=(GPL3 LGPL FDL custom)
