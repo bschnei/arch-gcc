@@ -7,7 +7,7 @@
 # toolchain build order: linux-api-headers->glibc->binutils->gcc->glibc->binutils->gcc
 # NOTE: libtool requires rebuilt with each new gcc version
 
-pkgname=(gcc gcc-libs lib32-gcc-libs gcc-ada gcc-d gcc-fortran gcc-go gcc-objc lto-dump libgccjit)
+pkgname=(gcc gcc-libs lib32-gcc-libs gcc-ada gcc-d gcc-fortran gcc-go gcc-m2 gcc-objc lto-dump libgccjit)
 pkgver=13.2.1
 _majorver=${pkgver%%.*}
 _commit=860b0f0ef787f756c0e293671b4c4622dff63a79
@@ -114,7 +114,7 @@ build() {
   CXXFLAGS=${CXXFLAGS/-Werror=format-security/}
 
   "$srcdir/gcc/configure" \
-    --enable-languages=ada,c,c++,d,fortran,go,lto,objc,obj-c++ \
+    --enable-languages=ada,c,c++,d,fortran,go,lto,m2,objc,obj-c++ \
     --enable-bootstrap \
     "${_confflags[@]:?_confflags unset}"
 
@@ -454,10 +454,28 @@ package_gcc-d() {
     "$pkgdir/usr/share/licenses/$pkgname/"
 }
 
+package_gcc-m2() {
+  pkgdesc='Modula-2 frontend for GCC'
+  depends=("gcc=$pkgver-$pkgrel" libisl.so)
+
+  cd gcc-build
+  make -C gcc DESTDIR="$pkgdir" m2.install-{common,man,info}
+
+  install -Dm755 gcc/cc1gm2 "$pkgdir/$_libdir"/cc1gm2
+  install -Dm755 gcc/gm2 "$pkgdir"/usr/bin/gm2
+  install -Dm644 gcc/plugin/m2rte.so "$pkgdir/$_libdir"/plugin/m2rte.so
+
+  make -C $CHOST/libgm2 DESTDIR="$pkgdir" install
+
+  # Install Runtime Library Exception
+  install -d "$pkgdir/usr/share/licenses/$pkgname/"
+  ln -s /usr/share/licenses/gcc-libs/RUNTIME.LIBRARY.EXCEPTION \
+    "$pkgdir/usr/share/licenses/$pkgname/"
+}
+
 #package_gcc-rust() {
 #  pkgdesc="Rust frontend for GCC"
 #  depends=("gcc=$pkgver-$pkgrel" libisl.so)
-#  replaces=(gcc-rust-git)
 #
 #  cd gcc-build
 #  make -C gcc DESTDIR="$pkgdir" rust.install-{common,man,info}
