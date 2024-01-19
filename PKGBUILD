@@ -14,7 +14,7 @@ _commit=860b0f0ef787f756c0e293671b4c4622dff63a79
 pkgrel=3
 pkgdesc='The GNU Compiler Collection'
 arch=(x86_64)
-license=(GPL3 LGPL FDL custom)
+license=(GPL-3.0-with-GCC-exception GFDL-1.3-or-later)
 url='https://gcc.gnu.org'
 makedepends=(
   binutils
