@@ -11,7 +11,7 @@ pkgname=(gcc gcc-libs lib32-gcc-libs gcc-ada gcc-d gcc-fortran gcc-go gcc-m2 gcc
 pkgver=13.2.1
 _majorver=${pkgver%%.*}
 _commit=860b0f0ef787f756c0e293671b4c4622dff63a79
-pkgrel=3
+pkgrel=4
 pkgdesc='The GNU Compiler Collection'
 arch=(x86_64)
 license=(GPL-3.0-with-GCC-exception GFDL-1.3-or-later)
@@ -51,7 +51,7 @@ sha256sums=('SKIP'
             'de48736f6e4153f03d0a5d38ceb6c6fdb7f054e8f47ddd6af0a3dbf14f27b931'
             '2513c6d9984dd0a2058557bf00f06d8d5181734e41dcfe07be7ed86f2959622a'
             '1773f5137f08ac1f48f0f7297e324d5d868d55201c03068670ee4602babdef2f'
-            '18d48240a6ef1242494fda7901858e189fb1c16791a33de0e862f519665eb1e3')
+            '0fab2541ab06d281a0d9d6cfc256499ff0a8638228094f6797580b83704e6e7c')
 
 prepare() {
   [[ ! -d gcc ]] && ln -s gcc-${pkgver/+/-} gcc
