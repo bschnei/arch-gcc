@@ -259,7 +259,7 @@ package_gcc() {
   make -C $CHOST/32/libsanitizer/asan DESTDIR="$pkgdir" install-nodist_toolexeclibHEADERS
 
   make -C gcc DESTDIR="$pkgdir" install-man install-info
-  rm "$pkgdir"/usr/share/man/man1/{gccgo,gfortran,lto-dump,gdc}.1
+  rm "$pkgdir"/usr/share/man/man1/{gccgo,gfortran,lto-dump,gdc,gm2}.1
   rm "$pkgdir"/usr/share/info/{gccgo,gfortran,gnat-style,gnat_rm,gnat_ugn,gdc}.info
 
   make -C libcpp DESTDIR="$pkgdir" install
@@ -463,7 +463,6 @@ package_gcc-m2() {
 
   install -Dm755 gcc/cc1gm2 "$pkgdir/$_libdir"/cc1gm2
   install -Dm755 gcc/gm2 "$pkgdir"/usr/bin/gm2
-  install -Dm644 gcc/plugin/m2rte.so "$pkgdir/$_libdir"/plugin/m2rte.so
 
   make -C $CHOST/libgm2 DESTDIR="$pkgdir" install
 
