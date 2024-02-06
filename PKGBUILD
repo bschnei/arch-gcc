@@ -80,7 +80,7 @@ build() {
       --libexecdir=/usr/lib
       --mandir=/usr/share/man
       --infodir=/usr/share/info
-      --with-bugurl=https://bugs.archlinux.org/
+      --with-bugurl=https://gitlab.archlinux.org/archlinux/packaging/packages/gcc/-/issues \
       --with-build-config=bootstrap-lto
       --with-linker-hash-style=gnu
       --with-system-zlib
