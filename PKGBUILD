@@ -53,7 +53,7 @@ sha256sums=('4730129b2d8bc80630bfe512e6cbe69151395be6bd2eb1967d64ca87ed8c0e09'
             '5ede1f5fec5b664428412a0849b28895be1c8d8982d3c0d246a4e95fd4730d65')
 pkgver() {
   cd gcc
-  echo "$(git describe --tags | sed 's/[^-]*-//;s/[^-]*-/&r/;s/-/+/g')"
+  git describe --tags | sed 's/[^-]*-//;s/[^-]*-/&r/;s/-/+/g'
 }
 
 prepare() {
