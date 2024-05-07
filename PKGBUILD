@@ -9,8 +9,6 @@
 
 pkgname=(gcc gcc-libs lib32-gcc-libs gcc-ada gcc-d gcc-fortran gcc-go gcc-m2 gcc-objc lto-dump libgccjit)
 pkgver=13.2.1
-_release=13.2.1
-_majorver=${_release%%.*}
 _commit=ca7d454804045a39d10a9b1f691a940aeacdf25b
 pkgrel=6
 pkgdesc='The GNU Compiler Collection'
@@ -54,7 +52,8 @@ sha256sums=('4730129b2d8bc80630bfe512e6cbe69151395be6bd2eb1967d64ca87ed8c0e09'
             '1773f5137f08ac1f48f0f7297e324d5d868d55201c03068670ee4602babdef2f'
             '5ede1f5fec5b664428412a0849b28895be1c8d8982d3c0d246a4e95fd4730d65')
 pkgver() {
-  echo "${_release}+g${_commit:0:11}"
+  cd gcc
+  echo "$(git describe --tags | sed 's/[^-]*-//;s/[^-]*-/&r/;s/-/+/g')"
 }
 
 prepare() {
@@ -360,15 +359,15 @@ package_gcc-ada() {
   ln -s gcc "$pkgdir/usr/bin/gnatgcc"
 
   # insist on dynamic linking, but keep static libraries because gnatmake complains
-  mv "$pkgdir"/${_libdir}/adalib/libgna{rl,t}-${_majorver}.so "$pkgdir/usr/lib"
-  ln -s libgnarl-${_majorver}.so "$pkgdir/usr/lib/libgnarl.so"
-  ln -s libgnat-${_majorver}.so "$pkgdir/usr/lib/libgnat.so"
+  mv "$pkgdir"/${_libdir}/adalib/libgna{rl,t}-${pkgver%%.*}.so "$pkgdir/usr/lib"
+  ln -s libgnarl-${pkgver%%.*}.so "$pkgdir/usr/lib/libgnarl.so"
+  ln -s libgnat-${pkgver%%.*}.so "$pkgdir/usr/lib/libgnat.so"
   rm -f "$pkgdir"/${_libdir}/adalib/libgna{rl,t}.so
 
   install -d "$pkgdir/usr/lib32/"
-  mv "$pkgdir"/${_libdir}/32/adalib/libgna{rl,t}-${_majorver}.so "$pkgdir/usr/lib32"
-  ln -s libgnarl-${_majorver}.so "$pkgdir/usr/lib32/libgnarl.so"
-  ln -s libgnat-${_majorver}.so "$pkgdir/usr/lib32/libgnat.so"
+  mv "$pkgdir"/${_libdir}/32/adalib/libgna{rl,t}-${pkgver%%.*}.so "$pkgdir/usr/lib32"
+  ln -s libgnarl-${pkgver%%.*}.so "$pkgdir/usr/lib32/libgnarl.so"
+  ln -s libgnat-${pkgver%%.*}.so "$pkgdir/usr/lib32/libgnat.so"
   rm -f "$pkgdir"/${_libdir}/32/adalib/libgna{rl,t}.so
 
   # Install Runtime Library Exception
