@@ -7,10 +7,10 @@
 # toolchain build order: linux-api-headers->glibc->binutils->gcc->glibc->binutils->gcc
 # NOTE: libtool requires rebuilt with each new gcc version
 
-pkgname=(gcc gcc-libs lib32-gcc-libs gcc-ada gcc-d gcc-fortran gcc-go gcc-m2 gcc-objc lto-dump libgccjit)
-pkgver=13.2.1
-_commit=ca7d454804045a39d10a9b1f691a940aeacdf25b
-pkgrel=6
+pkgname=(gcc gcc-libs lib32-gcc-libs gcc-ada gcc-d gcc-fortran gcc-go gcc-m2 gcc-objc gcc-rust lto-dump libgccjit)
+pkgver=14.1.1+r1+g43b730b9134
+_commit=43b730b9134af60a8f1c5b107d625f7127ff23c5
+pkgrel=1
 pkgdesc='The GNU Compiler Collection'
 arch=(x86_64)
 license=(GPL-3.0-with-GCC-exception GFDL-1.3-or-later)
@@ -26,6 +26,7 @@ makedepends=(
   libisl
   libmpc
   python
+  rust
   zstd
 )
 checkdepends=(
@@ -40,17 +41,15 @@ _libdir=usr/lib/gcc/$CHOST/${pkgver%%+*}
 source=(git+https://sourceware.org/git/gcc.git#commit=${_commit}
         c89 c99
         gcc-ada-repro.patch
-        fix-asan-allocator-aslr.patch
 )
 validpgpkeys=(F3691687D867B81B51CE07D9BBE43771487328A9  # bpiotrowski@archlinux.org
               86CFFCA918CF3AF47147588051E8B148A9999C34  # evangelos@foutrelis.com
               13975A70E63C361C73AE69EF6EEB81F8981C74C7  # richard.guenther@gmail.com
               D3A93CAD751C2AF4F8C7AD516C35B99309B5FA62) # Jakub Jelinek <jakub@redhat.com>
-sha256sums=('4730129b2d8bc80630bfe512e6cbe69151395be6bd2eb1967d64ca87ed8c0e09'
+sha256sums=('51024affcbc17f4ba5528ad9aad112a9b4d367d796a44b0bc59e3403a4c82ddd'
             'de48736f6e4153f03d0a5d38ceb6c6fdb7f054e8f47ddd6af0a3dbf14f27b931'
             '2513c6d9984dd0a2058557bf00f06d8d5181734e41dcfe07be7ed86f2959622a'
-            '1773f5137f08ac1f48f0f7297e324d5d868d55201c03068670ee4602babdef2f'
-            '5ede1f5fec5b664428412a0849b28895be1c8d8982d3c0d246a4e95fd4730d65')
+            '1773f5137f08ac1f48f0f7297e324d5d868d55201c03068670ee4602babdef2f')
 pkgver() {
   cd gcc
   echo "$(cat gcc/BASE-VER)+$(git describe --tags | sed 's/[^-]*-[^-]*-//;s/[^-]*-/r&/;s/-/+/g;s/_/./')"
@@ -68,9 +67,6 @@ prepare() {
 
   # Reproducible gcc-ada
   patch -Np0 < "$srcdir/gcc-ada-repro.patch"
-
-  #ASan: move allocator base to avoid conflict with high-entropy ASLR for x86-64 Linux'
-  patch -Np3 < "$srcdir/fix-asan-allocator-aslr.patch" -d libsanitizer/
 
   mkdir -p "$srcdir/gcc-build"
   mkdir -p "$srcdir/libgccjit-build"
@@ -117,7 +113,7 @@ build() {
   CXXFLAGS=${CXXFLAGS/-Werror=format-security/}
 
   "$srcdir/gcc/configure" \
-    --enable-languages=ada,c,c++,d,fortran,go,lto,m2,objc,obj-c++ \
+    --enable-languages=ada,c,c++,d,fortran,go,lto,m2,objc,obj-c++,rust \
     --enable-bootstrap \
     "${_confflags[@]:?_confflags unset}"
 
@@ -475,21 +471,20 @@ package_gcc-m2() {
     "$pkgdir/usr/share/licenses/$pkgname/"
 }
 
-#package_gcc-rust() {
-#  pkgdesc="Rust frontend for GCC"
-#  depends=("gcc=$pkgver-$pkgrel" libisl.so)
-#
-#  cd gcc-build
-#  make -C gcc DESTDIR="$pkgdir" rust.install-{common,man,info}
-#
-#  install -Dm755 gcc/gccrs "$pkgdir"/usr/bin/gccrs
-#  install -Dm755 gcc/rust1 "$pkgdir"/"$_libdir"/rust1
-#
-#  # Install Runtime Library Exception
-#  install -d "$pkgdir/usr/share/licenses/$pkgname/"
-#  ln -s /usr/share/licenses/gcc-libs/RUNTIME.LIBRARY.EXCEPTION \
-#    "$pkgdir/usr/share/licenses/$pkgname/"
-#}
+package_gcc-rust() {
+ pkgdesc="Rust frontend for GCC"
+ depends=("gcc=$pkgver-$pkgrel" libisl.so)
+
+ cd gcc-build
+ make -C gcc DESTDIR="$pkgdir" rust.install-{common,man,info}
+
+ install -Dm755 gcc/gccrs "$pkgdir"/usr/bin/gccrs
+
+  # Install Runtime Library Exception
+ install -d "$pkgdir/usr/share/licenses/$pkgname/"
+ ln -s /usr/share/licenses/gcc-libs/RUNTIME.LIBRARY.EXCEPTION \
+   "$pkgdir/usr/share/licenses/$pkgname/"
+}
 
 package_lto-dump() {
   pkgdesc="Dump link time optimization object files"
