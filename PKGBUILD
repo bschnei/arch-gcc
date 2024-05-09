@@ -479,6 +479,7 @@ package_gcc-rust() {
  make -C gcc DESTDIR="$pkgdir" rust.install-{common,man,info}
 
  install -Dm755 gcc/gccrs "$pkgdir"/usr/bin/gccrs
+ install -Dm755 gcc/crab1 "$pkgdir"/usr/bin/crab1
 
   # Install Runtime Library Exception
  install -d "$pkgdir/usr/share/licenses/$pkgname/"
