@@ -52,7 +52,7 @@ sha256sums=('82b674a17bbac14acbf16b10e9d61e928e5630cd56635eb97acfeda849d4ebbf'
             '1773f5137f08ac1f48f0f7297e324d5d868d55201c03068670ee4602babdef2f')
 pkgver() {
   cd gcc
-  echo "$(cat gcc/BASE-VER)+$(git describe --abbrev 12 --tags | sed 's/[^-]*-[^-]*-//;s/[^-]*-/r&/;s/-/+/g;s/_/./')"
+  echo "$(cat gcc/BASE-VER)+$(git describe --abbrev=12 --tags | sed 's/[^-]*-[^-]*-//;s/[^-]*-/r&/;s/-/+/g;s/_/./')"
 }
 
 prepare() {
