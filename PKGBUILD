@@ -10,7 +10,7 @@
 pkgname=(gcc gcc-libs lib32-gcc-libs gcc-ada gcc-d gcc-fortran gcc-go gcc-m2 gcc-objc gcc-rust lto-dump libgccjit)
 pkgver=14.2.1+r134+gab884fffe3fc
 _commit=ab884fffe3fc82a710bea66ad651720d71c938b8
-pkgrel=1
+pkgrel=2
 pkgdesc='The GNU Compiler Collection'
 arch=(x86_64)
 license=(GPL-3.0-with-GCC-exception GFDL-1.3-or-later)
